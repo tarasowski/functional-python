@@ -520,3 +520,52 @@ print(d['Harry']) # Python
 ```
 
 ### List and Dict Comperehensions and Generator Expressions
+* Statement in Python is an instruction and a way to tell Python to do something
+  * A 'for' loop is a stamement
+  * A statement doesn't evaluate to anything
+* Expression is anything that evaluates to something
+  * For example 10 + 10
+  * Used heavily in fp
+* A list comprehensions are an expressive alternative to 'for' statements
+
+
+```py
+from math import sqrt
+for i in range(5):
+  print(sqrt(1))
+
+[sqrt(i) for i in rage(5)]
+
+# Filtering list comprehensions
+
+for i in range(5):
+  if i%2:
+    continue
+  print(i)
+
+[print(i) for i range(5) if not i%2]
+```
+
+### Dict Comprehensions
+* Processing a dict in a single expression
+
+```py
+
+SPECIES = 'whale', 'grasshooper', 'lizard'
+CLASS = 'mammal', 'insect', 'reptile'
+
+d = dict(zip(SPECIEL, CLASS))
+
+d = { species.capitalize(): class_.capitalize() for species, class_ in zip(SPECIES, CLASS) }
+# Filtering
+
+# If something is between curly braces you are allowed to split it into multiple
+lines
+d = { 
+  species.capitalize(): class_.capitalize() 
+  for species, class_ in zip(SPECIES, CLASS) 
+  if class_ != 'insect'
+  }
+```
+
+### Generator Expressions
