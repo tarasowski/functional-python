@@ -65,4 +65,3 @@ def f_main() -> int:
             )
 print('The result is: %s' % f_main())
 
-f_main()
