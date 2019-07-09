@@ -569,3 +569,245 @@ d = {
 ```
 
 ### Generator Expressions
+
+```py
+from math import sqrt
+
+g = (sqrt(i) for i in range(5))
+for i in g:
+  print(i)
+
+print(next(g)) # 0
+print(next(g)) # 1
+
+# Filtering generator expressions
+g = (i for i in range(10) if not i%2)
+
+# Breaking generator expressions
+def fibonacci():
+  yield 1
+  yield 1
+  l = [1,1]
+  while True:
+    l = [l[-1], sum(l[-2:])]
+    yield l[-1]
+
+def stop():
+  raise StopIteration()
+
+g = (i for i in fibonacci() if i < 10 or stop())
+for i in g:
+  print(i) # 1 2 3 4 5 6 7 8  
+```
+
+### Nested Comprehensions
+* Defining loops within loops with a single expression
+* Typical scenraio for nested loops when you need all combinations of the
+  lements of two iterables, very different from `zip()`
+
+```py
+grid = []
+for x in range(2):
+  for y in range(2):
+    grid.append((x,y))
+print(grid)
+# [(0,0), (0,1), (1,0), (1,1)]
+
+grid_ = [ (x, y) for x in range(2) for y in range(2) ]
+print(grid_)
+# [(0,0), (0,1), (1,0), (1,1)]
+```
+
+* Explained that statements are instructions to the Python interpreter and
+  expressions are things that evaluate to something
+
+### Functions that work with Iterators
+
+#### Convinient Functions
+* Several built-in (means you can use it right away w/o importing) functions for working with iterators
+* zip(), map(), enumerate(), and filter()
+* zip(): linking elements from multiple iterators
+* enumerate(): getting indices along with elements
+
+```py
+speciel_list = ['Whale', 'Lizard', 'Ant']
+class_list = ['Mammal', 'Reptile', 'Insect']
+cuteness_list = [3, 2, 1, 0]
+
+for i in range(len(species_list)):
+  species = species = species_list[i]
+  class_ = class_list[i]
+  print('%s is a %s' % (species, class_))
+
+for species, class_ in zip(species_list, class_list):
+  print('%s is a %s' % (species, class_))
+
+for species, class_, cuteness in zip(species_list, class_list, cuteness_list):
+  print('%s is a %s and has a cuteness of %s' % (species, class_, cuteness))
+
+# We are using map() in a for loop that automatically iterates through all
+elements
+from math import sqrt
+fibonacci = [1,1,,2,3,5,8]
+
+for i in map(sqrt, fibonacci):
+  print(i)
+
+# Generator expression
+for i in (sqr(j) for j in fibonacci):
+  print(i)
+
+# enumerate() - example
+i = 0
+for species in species_list:
+  print(i, species)
+  i +=1
+
+for i, species in enumerate(species_list):
+  print(i, species)
+# 0 Whale
+# 1 Lizard
+# 2 Ant
+
+# filter()
+for i in fibonacci:
+  if i%2:
+    continue
+
+for i in filter(lambda i : not i%2, fibonacci)
+  print(i)
+# 2
+# 8
+
+### Numerical and logical function for working with Iterators
+none_true = [0,0,0]
+some_true = [0,1,0]
+all_ture = [1,1,1]
+
+def check_any(i):
+for e in i:
+  if e:
+      return True
+  return False
+
+check_any(none_true)
+
+
+# with any() check if any of the lements evaluate to True
+any(some_true) # True
+any(non_true) # False
+
+True in (bool(e) for e in none_true)
+
+# with all() all elements evalute to True
+all(all_true) # True
+all(some_true) # False
+
+# generator expression
+False not in (bool(e) for e in all_true)
+
+# sorted() takes an iterator with numeric element, sorts it, and returns a list
+numbers = [2, -1, 2, 4]
+sorted(number)
+
+# min() & max() to sort numbers in iterator
+# sum() to get the sum of an iterator
+
+### The Itertools Module
+* The itertools module which provides:
+  * A wide variety of functions to create (or operate on) iterators
+  * To select and group elements from iterators
+  * To implement combinatorial logic
+  * Functions from itertools are not built-in but they are part of the standard
+    library. Means you don't need to install it separetely
+
+```py
+import itertools as it
+
+# count() retuns an infinite counter
+for i in it.count(start=10, steps=-1):
+  if not i:
+    break
+  print(i)
+
+# cycle() loops an iterator infinetely
+# repeat() creates an infinite iterator from a single element
+# chain() links multiple tal to head (to flatten a list)
+for e in it.chain('abc', [3,2,1], 'cba')
+  print(e)
+# a b c 3 2 1 c b a
+``` 
+
+### The FuncTools Module
+
+```py
+import functools as ft
+import math
+import itertools as it
+import time
+
+# first we specify the function we want to partial
+# then we specify the argument we want to bind
+sqrt_9 = ft.partial(math.sqrt, 9)
+
+# @lur_cache() decorator remembers the results of a function call, and when the
+function called again with the same set of arguments, returns this result right
+away. This is a form of caching, and is related to the functional-programming
+concept memoization
+
+
+@ft.lru_cache()
+def prime_below(x):
+  return next(
+    it.dropwhile(
+      lambda x: any(x//i == float(x)/i for i in range(x-1, 2, -1)),
+      range(x-1, 0, -1)
+      )
+    )
+
+t0 = time.time()
+print(prime_below(10000))
+t1 = time.time()
+print(prime_blow(10000))
+t2 = time.time()
+print('First took %.2f ms' % (1000.*(t1-t0)))
+print('Then took %.2f ms' % (1000.*(t2-t1)))
+# 9973
+# 9973
+# First took 78.71 ms
+# Then took 0.25 ms
+
+# The @singledispatch decorator allows you to create different implementations
+of a function, given different argument types. The type of the first argument is
+used to decide which implementation of the function should be used
+
+@ft.singledispatch
+def add(a, b):
+  return a+b
+
+@add.register(str)
+def _(a, b):
+  return int(a) + int(b)
+
+print(add('1', '2'))
+
+```
+
+
+```py
+adam_sandler_movies = [
+  ('Paul Bart', 0.06),
+  ('Blended', 0.14),
+  ('Grown Ups', 0.07),
+  ("That's my boy", 0.2),
+  ('Hotel Transylvania', 0.44)
+]
+selected_titles = map(
+  lambda movie: movie[0],
+  filter(lambda movie: movie[1] >= 0.2,
+    adam_sandler_movies
+    )
+  )
+print(list(selected_titles))
+# ["That's my Boy", 'Hotel Transylvania']
+```
