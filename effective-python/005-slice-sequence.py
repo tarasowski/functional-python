@@ -27,7 +27,7 @@ def slicing_a():
     c = a[:]
     # if you leave out both the start and the end indexes when slicing, you'll end up with a copy of the original list
     assert(c == a and c is not a)
-    #If you assign a slice iwth not start or end indexes, you'll replace its entire contents iwth a copy of what's referenced (instead of allocating a new list)
+    #If you assign a slice with no start or end indexes, you'll replace its entire contents with a copy of what's referenced (instead of allocating a new list)
     z = a
     print('Before', a)
     a[:] = [ 101, 102, 103]
