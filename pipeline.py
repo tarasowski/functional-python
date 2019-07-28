@@ -1,9 +1,6 @@
 from functools import reduce, partial
 
-def pipe(*args):
-    def h(x):
-        return reduce(lambda a, fn: fn(a), args, x) 
-    return h
+pipe = lambda fns: lambda x: reduce(lambda v, f: f(v), fns, x)
 
 def mult(x):
     return x * 2
@@ -16,12 +13,12 @@ def add(x):
 def add_(x,y):
     return x + y
 
-result = pipe(mult, 
+result = pipe([mult, 
               mult, 
               mult,
               add(50),
-              partial(add_, 100)
-              )
+              partial(add_, 100),
+              (lambda x: print(f'print result of pipe: {x}') or x)
+              ])
 
-
-print(result(50))
+result(50)
