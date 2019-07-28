@@ -8,7 +8,8 @@ def safe(f):
         except Exception as e:
             return e
     return inner
-        
+
+# @safe is syntactic sugar for safe(divide)(20, 0)
 @safe
 def divide(x, y):
     return x / y
