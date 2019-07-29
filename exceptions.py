@@ -1,7 +1,7 @@
 # Errors detected during execution (runtime) are called exceptions and are not unconditionally fatal. 
 # If during execution (runtime) Python encounters something which it can't handle, then it raises an exception.
-# When a Python script raises exception, it creates an Exception object
-# If the script doesn't handle exception the program will terminate abruptly. If the script handles exception the program will run further
+# When a Python script raises an exception, it creates an Exception object.
+# If the script doesn't handle the exception the program will terminate abruptly. If the script handles the exception the program will run further
 
 # Python provides us some basic exception classes
     # Class is an object constructor
