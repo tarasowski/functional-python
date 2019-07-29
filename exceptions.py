@@ -1,7 +1,6 @@
 # Exceptions occur during run-time. Your code may be syntactically correct but it may happen that during run-time Python encounters something which it can't handle, then it raises an exception.
 # When a Python script raises exception, it creates an Exception object
 # IMPORTANT: If the script doesn't handle exception the program will terminate abruptly. If the script handles exception the program will run further
-# An exception is a signal that a condition has occured that can't be easily handled using the normal flow-of-control of a Python program
 
 # Python provides us some basic exception classes
     # Class is an object constructor
