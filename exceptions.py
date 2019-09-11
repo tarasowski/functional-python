@@ -189,7 +189,7 @@ def load_json_key(data, key):
         raise KeyError from e
     # The else clause ensures that what follows the try/except is visually distinguished from the except block.
     else:
-        # If decoding is successful, then the key lookup will ossur in the else block. If the key lookup raises any exeptions, they will propagate up to the caller because they are outside of the try block.
+        # If decoding is successful, then the key lookup will occure in the else block. If the key lookup raises any exeptions, they will propagate up to the caller because they are outside of the try block.
         # return result_dict[key] - this version is not very safe and raises errors. Use the version from below to define the default value in case the error occurs
         return result_dict.get(key, 10) # May raise KeyError
 print(
